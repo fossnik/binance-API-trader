@@ -4,6 +4,7 @@ import com.binance.api.client.BinanceApiRestClient;
 import com.binance.api.client.domain.market.*;
 
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.TreeSet;
 import java.util.Scanner;
@@ -24,9 +25,15 @@ public class Main {
 		Scanner scanner = new Scanner(System.in);
 
 		float orderSize = -1;
-		while (orderSize < 0) {
+		do {
 			System.out.println("\nWhat is the intended size of your order (in BTC)?");
-			orderSize = scanner.nextFloat();
+			try {
+				orderSize = scanner.nextFloat();
+			} catch (InputMismatchException e) {
+				System.out.println(" Cannot Parse this Input!");
+				scanner.nextLine();
+				continue;
+			}
 
 			System.out.println("Order size: " + orderSize + " BTC (" +
 					orderSize * Float.parseFloat(client.get24HrPriceStatistics("BTCUSDT").getLastPrice()) +
@@ -36,9 +43,10 @@ public class Main {
 
 			if (!scanner.next().equals("y"))
 				orderSize = -1;
-		}
 
-		System.out.println("Acquiring Ticker Symbols...");
+		} while (orderSize < 0);
+
+		System.out.println("\nAcquiring Ticker Symbols...");
 		TreeSet<String> tickers = acquireTickers.getTickers();
 		int count = 0;
 		for (String s : tickers)
