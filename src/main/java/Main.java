@@ -59,19 +59,19 @@ public class Main {
 				" Valid Symbols  - - - - - - -  >\n");
 
 		// get and validate user's input symbol
-		String choice = "";
-		while (!tickers.contains(choice)) {
-			if (choice.isEmpty())
+		String coin = "";
+		while (!tickers.contains(coin)) {
+			if (coin.isEmpty())
 				System.out.println("Enter your choice: ");
 			else
-				System.out.println(choice + " is NOT a Valid Ticker!");
+				System.out.println(coin + " is NOT a Valid Ticker!");
 
-			choice = scanner.next().toUpperCase();
+			coin = scanner.next().toUpperCase();
 			scanner.nextLine();
 		}
-		System.out.println("\n Validated Symbol: " + choice);
+		System.out.println("\n Validated Symbol: " + coin);
 
 		// delineate order parameters
-		double lastPrice = Float.parseFloat(client.get24HrPriceStatistics(choice + "BTC").getLastPrice());
+		double lastPrice = Double.parseDouble(client.get24HrPriceStatistics(coin + "BTC").getLastPrice());
 	}
 }
