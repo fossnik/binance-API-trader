@@ -19,25 +19,28 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 
-		BinanceApiClientFactory factory = BinanceApiClientFactory.newInstance();
-		BinanceApiRestClient client = factory.newRestClient();
+		BinanceApiClientFactory fty = BinanceApiClientFactory.newInstance();
+		BinanceApiRestClient cnt = fty.newRestClient();
 
 		Scanner scanner = new Scanner(System.in);
 
 		double orderSize = -1;
 		do {
-			System.out.println("\nWhat is the intended size of your order (in BTC)?");
+			System.out.println("\nIntended size of your order (in BTC)?");
 			try {
 				orderSize = scanner.nextFloat();
 			} catch (InputMismatchException e) {
-				System.out.println(" Cannot Parse this Input!");
+				System.out.println("#! Cannot Parse this Input!");
 				scanner.nextLine();
 				continue;
 			}
 
-			System.out.println("Order size: " + orderSize + " BTC (" +
-					orderSize * Float.parseFloat(client.get24HrPriceStatistics("BTCUSDT").getLastPrice()) +
-					" USD)");
+			String BTCxUSD =
+						cnt.get24HrPriceStatistics("BTCUSDT").getLastPrice();
+			BTCxUSD = BTCxUSD.substring(0, BTCxUSD.indexOf('.') + 3);
+
+			System.out.println("Order size: " + orderSize +
+					" BTC ($" + BTCxUSD + " USD)");
 
 			System.out.println("\n> Enter 'y' to confirm <");
 
@@ -46,7 +49,7 @@ public class Main {
 
 		} while (orderSize < 0);
 
-		System.out.println("\nAcquiring Ticker Symbols...");
+		System.out.println("\n$> Acquiring Ticker Symbols...");
 		TreeSet<String> tickers = acquireTickers.getTickers();
 		int count = 0;
 		for (String s : tickers)
@@ -56,13 +59,13 @@ public class Main {
 				System.out.print(s + " \t");
 
 		System.out.println("\n\t<  - - - - - - -  " + count +
-				" Valid Symbols  - - - - - - -  >\n");
+				" Valid Symbols  - - - - - - -  >");
 
 		// get and validate user's input symbol
 		String coin = "";
 		while (!tickers.contains(coin)) {
 			if (coin.isEmpty())
-				System.out.println("Enter your choice: ");
+				System.out.println("\n Enter your choice: ");
 			else
 				System.out.println(coin + " is NOT a Valid Ticker!");
 
@@ -72,6 +75,7 @@ public class Main {
 		System.out.println("\n Validated Symbol: " + coin);
 
 		// delineate order parameters
-		double lastPrice = Double.parseDouble(client.get24HrPriceStatistics(coin + "BTC").getLastPrice());
+		double lastPrice = Double.parseDouble(
+				cnt.get24HrPriceStatistics(coin + "BTC").getLastPrice());
 	}
 }
