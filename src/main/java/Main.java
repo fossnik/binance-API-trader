@@ -24,7 +24,7 @@ public class Main {
 
 		Scanner scanner = new Scanner(System.in);
 
-		float orderSize = -1;
+		double orderSize = -1;
 		do {
 			System.out.println("\nWhat is the intended size of your order (in BTC)?");
 			try {
@@ -72,6 +72,6 @@ public class Main {
 		System.out.println("\n Validated Symbol: " + choice);
 
 		// delineate order parameters
-		float lastPrice = Float.parseFloat(client.get24HrPriceStatistics(choice + "BTC").getLastPrice());
+		double lastPrice = Float.parseFloat(client.get24HrPriceStatistics(choice + "BTC").getLastPrice());
 	}
 }
