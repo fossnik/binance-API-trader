@@ -77,5 +77,21 @@ public class Main {
 		// delineate order parameters
 		double lastPrice = Double.parseDouble(
 				cnt.get24HrPriceStatistics(coin + "BTC").getLastPrice());
+
+		double purchaseAmount = orderSize / lastPrice;
+
+
+		System.out.println(
+				"______________________________________________" +
+				"             < ORDER PARAMETERS >             \n" +
+				"|\tCoin: \t" + coin + "\n" +
+				"|\tAmount:\t" + purchaseAmount + " " + coin + "\n" +
+				"|\tat Price: \t" + Double.toString(lastPrice) + "\n" +
+				"|\tValue: \t" + purchaseAmount * lastPrice + " BTC");
+
+		do System.out.println("\n> Enter 'y' to confirm <");
+		while (!scanner.next().equals("y"));
+
+		System.out.println("\n$> Executing Order...");
 	}
 }
