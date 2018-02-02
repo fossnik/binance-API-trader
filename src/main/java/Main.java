@@ -42,12 +42,10 @@ public class Main {
 		TreeSet<String> tickers = acquireTickers.getTickers();
 		int count = 0;
 		for (String s : tickers)
-			if (++count % 8 == 0) {
+			if (++count % 8 == 0)
 				System.out.println(s);
-			}
-			else {
+			else
 				System.out.print(s + " \t");
-			}
 
 		System.out.println("\n\t<  - - - - - - -  " + count +
 				" Valid Symbols  - - - - - - -  >\n");
